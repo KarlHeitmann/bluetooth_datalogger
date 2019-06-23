@@ -18,6 +18,13 @@ import time
 gbl_force_close = False
 BLUETOOTH_NAME = 'ESP32test'
 
+if not('BLUETOOTH_OFF' in os.environ):
+    from jnius import autoclass
+    BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
+    BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
+    BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
+    UUID = autoclass('java.util.UUID')
+
 def working(socket_in, conectando_str, raw_log):
     print(socket_in)
     print("WORKING")
@@ -36,13 +43,6 @@ def working(socket_in, conectando_str, raw_log):
     print("va a cerrar socket")
     socket_in.close()
     print("BYE BYE Thread")
-
-if 'BLUETOOTH_OFF' in os.environ:
-    from jnius import autoclass
-    BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
-    BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
-    BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
-    UUID = autoclass('java.util.UUID')
 
 def get_socket_stream(name):
     paired_devices = BluetoothAdapter.getDefaultAdapter().getBondedDevices().toArray()
@@ -118,7 +118,7 @@ class SettingsScreen(Screen):
     pass
 
 
-class SetGraph(Widget):
+class SetGraph(BoxLayout):
     graph_test = ObjectProperty(None)
     def update_graph(self):
         pass

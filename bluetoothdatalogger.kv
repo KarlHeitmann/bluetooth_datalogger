@@ -3,6 +3,7 @@
 
 <SetGraph>:
     graph_test : graph_test
+    orientation: 'vertical'
     Graph:
         with_stencilbuffer: False
         id: graph_test
@@ -23,9 +24,6 @@
         ymax:10
         pos: 0, root.height / 6
         size: root.width * 2 / 3 , root.height * 18 / 24
-    Button:
-        text: "Pintar"
-        on_press:  root.pintar()
 
 <MenuScreen>:
     BoxLayout:
@@ -45,8 +43,7 @@
 <BluetoothScreen>:
     BoxLayout:
         orientation: 'vertical'
-        Label:
-            text: root.raw_txt
+        SetGraph:
         Label:
             text: root.conectando_text
         Button:
