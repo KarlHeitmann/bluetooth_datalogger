@@ -14,7 +14,7 @@ def working():
         time.sleep(5)
 
 
-class Thread(BoxLayout):
+class Thread(Screen):
     counter = NumericProperty(0)
 
     def Counter_function(self):
@@ -28,7 +28,8 @@ class Thread(BoxLayout):
 
 # Declare both screens
 class MenuScreen(Screen):
-    pass
+    def start_bluetooth(self):
+        print("starting")
 
 class SettingsScreen(Screen):
     pass
@@ -39,6 +40,7 @@ class BluetoothDataloggerApp(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(MenuScreen(name='menu'))
+        sm.add_widget(Thread(name='thread'))
         sm.add_widget(SettingsScreen(name='settings'))
         #self.load_kv('thread.kv')
         #return Thread() 
