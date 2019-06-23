@@ -1,0 +1,10 @@
+#: include thread.kv
+
+<BluetoothDataloggerApp@BoxLayout>:
+    orientation: 'vertical'
+    Button:
+        id: connect
+        text: 'Connect'
+        on_press: app.on_connect()
+BluetoothDataloggerApp
+    Thread

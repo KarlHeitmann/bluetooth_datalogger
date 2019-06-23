@@ -1,5 +1,6 @@
 import threading   
 from kivy.app import App
+from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
 
@@ -15,11 +16,15 @@ class Thread(BoxLayout):
         self.counter += 1
         self.ids.lbl.text = "{}".format(self.counter)
 
-class MyApp(App):
+class BluetoothDataloggerApp(App):
+    def on_connect(self):
+        print("Conectando...")
     def build(self):
-        self.load_kv('thread.kv')
-        return Thread() 
+        #self.load_kv('thread.kv')
+        #return Thread() 
+        #return Widget()
+        pass
 
 if __name__ == "__main__":
-    app = MyApp()
+    app = BluetoothDataloggerApp()
     app.run()
