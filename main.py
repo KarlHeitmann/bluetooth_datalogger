@@ -120,11 +120,15 @@ class SettingsScreen(Screen):
 
 class SetGraph(Widget):
     graph_test = ObjectProperty(None)
-
     def update_graph(self):
-         plot = MeshLinePlot(color=[1, 0, 0, 1])
-         plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
-         self.graph_test.add_plot(plot)
+        print("update_graph")
+        plot = MeshLinePlot(color=[1, 0, 0, 1])
+        plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        print(plot)
+        print(plot.points)
+        self.graph_test.add_plot(plot)
+        self.ids["graph_test"].add_plot(plot)
+        print(self.graph_test)
 
 class BluetoothDataloggerApp(App):
     def on_connect(self):
