@@ -6,6 +6,7 @@
     Graph:
         with_stencilbuffer: False
         id: graph_test
+        plot: MeshLinePlot
         xlabel:'X'
         ylabel:'Y'
         x_ticks_minor:5
@@ -22,6 +23,9 @@
         ymax:10
         pos: 0, root.height / 6
         size: root.width * 2 / 3 , root.height * 18 / 24
+    Button:
+        text: "Pintar"
+        on_press:  root.pintar()
 
 <MenuScreen>:
     BoxLayout:

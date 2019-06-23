@@ -16,6 +16,7 @@ from kivy.properties import StringProperty
 import time
 
 gbl_force_close = False
+BLUETOOTH_NAME = 'ESP32test'
 
 def working(socket_in, conectando_str, raw_log):
     print(socket_in)
@@ -38,7 +39,6 @@ def working(socket_in, conectando_str, raw_log):
 
 if 'BLUETOOTH_OFF' in os.environ:
     from jnius import autoclass
-    BLUETOOTH_NAME = 'ESP32test'
     BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
     BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
     BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
@@ -121,6 +121,8 @@ class SettingsScreen(Screen):
 class SetGraph(Widget):
     graph_test = ObjectProperty(None)
     def update_graph(self):
+        pass
+    def pintar(self):
         print("update_graph")
         plot = MeshLinePlot(color=[1, 0, 0, 1])
         plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
@@ -129,16 +131,19 @@ class SetGraph(Widget):
         #self.graph_test.add_plot(plot)
         self.ids["graph_test"].add_plot(plot)
         print(self.graph_test)
+        print("CLICK!!!")
 
 class BluetoothDataloggerApp(App):
     def on_connect(self):
         print("Conectando...")
     def build(self):
+        sm = ScreenManager()
+        '''
+        ms.add_widget(disp)
+        '''
         disp = SetGraph()
         disp.update_graph()
-        sm = ScreenManager()
         ms = MenuScreen(name='menu')
-        ms.add_widget(disp)
         sm.add_widget(ms)
         sm.add_widget(BluetoothScreen(name='bluetooth'))
         sm.add_widget(Thread(name='thread'))
