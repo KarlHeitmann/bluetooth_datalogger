@@ -113,6 +113,13 @@ class MenuScreen(Screen):
 
     def start_bluetooth(self):
         print("starting")
+    def quit(self):
+        print("quit")
+        print(self.ids["wena_choro"])
+        print(self.ids["MiGraf"])
+        plot = MeshLinePlot(color=[1, 0, 0, 1])
+        plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        self.ids["MiGraf"].pintar()
 
 class SettingsScreen(Screen):
     pass
@@ -141,8 +148,8 @@ class BluetoothDataloggerApp(App):
         '''
         ms.add_widget(disp)
         '''
-        disp = SetGraph()
-        disp.update_graph()
+        self.disp = SetGraph()
+        self.disp.update_graph()
         ms = MenuScreen(name='menu')
         sm.add_widget(ms)
         sm.add_widget(BluetoothScreen(name='bluetooth'))
