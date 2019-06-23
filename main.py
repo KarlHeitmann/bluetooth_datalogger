@@ -1,3 +1,5 @@
+import os
+
 import threading   
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -11,13 +13,14 @@ import time
 
 gbl_force_close = False
 
-def working(socket_in, conectando_str):
+def working(socket_in, conectando_str, raw_log):
     print(socket_in)
     print("WORKING")
     mensaje = ""
     while(not(gbl_force_close)):
         if (socket_in.available()):
             input_chr = chr(socket_in.read())
+            raw_log(input_chr)
             #conectando_str = input_chr
             mensaje = mensaje + input_chr
             if (input_chr == '\n'):
@@ -29,13 +32,13 @@ def working(socket_in, conectando_str):
     socket_in.close()
     print("BYE BYE Thread")
 
-from jnius import autoclass
-
-BLUETOOTH_NAME = 'ESP32test'
-BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
-BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
-BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
-UUID = autoclass('java.util.UUID')
+if 'BLUETOOTH_OFF' in os.environ:
+    from jnius import autoclass
+    BLUETOOTH_NAME = 'ESP32test'
+    BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
+    BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
+    BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
+    UUID = autoclass('java.util.UUID')
 
 def get_socket_stream(name):
     paired_devices = BluetoothAdapter.getDefaultAdapter().getBondedDevices().toArray()
@@ -70,16 +73,23 @@ class Thread(Screen):
 # Declare both screens
 class BluetoothScreen(Screen):
     conectando_text = StringProperty("Noc")
-    #conectando_text = "Con"
+    raw_txt_str = ""
+    raw_txt = StringProperty(str(raw_txt_str))
     def on_enter(self):
         print("Bienvenido!")
         gbl_force_close = False
         recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
         self.send_stream = send_stream
         #threading.Thread(target=working, args=(recv_stream, self.conectando_text, )).start()
-        threading.Thread(target=working, args=(recv_stream, self.actualizar, )).start()
-    def actualizar(self, caracter):
-        self.conectando_text = caracter
+        threading.Thread(target=working, args=(recv_stream, self.actualizar, self.raw_log)).start()
+    def raw_log(self, caracter):
+        self.raw_txt_str = self.raw_txt_str + caracter
+        print(self.raw_txt_str)
+        print(type(self.raw_txt_str))
+        print(type(str(self.raw_txt_str)))
+        self.raw_txt = StringProperty(str(self.raw_txt_str))
+    def actualizar(self, mensaje):
+        self.conectando_text = mensaje
     def on_leave(self):
         self.send_stream.close()
         gbl_force_close = True
