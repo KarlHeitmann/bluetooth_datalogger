@@ -27,6 +27,9 @@ class Thread(Screen):
         self.ids.lbl.text = "{}".format(self.counter)
 
 # Declare both screens
+class BluetoothScreen(Screen):
+    def on_enter(self):
+        print("Bienvenido!")
 class MenuScreen(Screen):
     def start_bluetooth(self):
         print("starting")
@@ -40,6 +43,7 @@ class BluetoothDataloggerApp(App):
     def build(self):
         sm = ScreenManager()
         sm.add_widget(MenuScreen(name='menu'))
+        sm.add_widget(BluetoothScreen(name='bluetooth'))
         sm.add_widget(Thread(name='thread'))
         sm.add_widget(SettingsScreen(name='settings'))
         #self.load_kv('thread.kv')

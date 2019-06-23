@@ -7,9 +7,18 @@
             on_press: root.manager.current = 'settings'
         Button:
             text: 'Start Bluetooth'
-            on_press: root.start_bluetooth()
+            on_press: root.manager.current = 'bluetooth'
+#on_press: root.start_bluetooth()
         Button:
             text: 'Quit'
+<BluetoothScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: "Conectando"
+        Button:
+            text: 'Back to menu'
+            on_press: root.manager.current = 'menu'
 
 <SettingsScreen>:
     BoxLayout:
