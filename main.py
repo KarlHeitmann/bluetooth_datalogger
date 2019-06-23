@@ -139,8 +139,29 @@ class BluetoothDataloggerApp(App):
         sm.add_widget(BluetoothScreen(name='bluetooth'))
         sm.add_widget(Thread(name='thread'))
         sm.add_widget(SettingsScreen(name='settings'))
-        disp = SetGraph()
-        disp.update_graph()
+        self.plot = MeshLinePlot(color=[1, 0, 0, 1])
+        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        self.graph = Graph(
+            _with_stencilbuffer= False,
+            xlabel='X',
+            ylabel='Y',
+            x_ticks_minor=5,
+            x_tics_major=25,
+            y_ticks_major=1,
+            y_grid_label=True,
+            x_grid_label=True,
+            padding=5,
+            x_grid=True,
+            y_grid=True,
+            xmin=-0,
+            xmax=100,
+            ymin=-10,
+            ymax=10,
+            pos= 0, root.height / 6,
+        )
+        self.graph.add_plot(self.plot)
+
+        #disp.update_graph()
         #self.load_kv('thread.kv')
         #return Thread() 
         #return Widget()
