@@ -1,19 +1,29 @@
 #: include thread.kv
+#: include setgraph.kv
+#: include bluetoothscreen.kv
 
 <MenuScreen>:
     BoxLayout:
-        Button:
-            text: 'Goto settings'
-            on_press: root.manager.current = 'settings'
-        Button:
-            text: 'Start Bluetooth'
-            on_press: root.manager.current = 'bluetooth'
+        orientation: 'horizontal'
+        SetGraph:
+            id: MiGraf
+        BoxLayout:
+            orientation: 'vertical'
+            Button:
+                id: wena_choro
+                text: 'Goto settings'
+                on_press: root.manager.current = 'settings'
+            Button:
+                text: 'Start Bluetooth'
+                on_press: root.manager.current = 'bluetooth'
 #on_press: root.start_bluetooth()
-        Button:
-            text: 'Quit'
+            Button:
+                text: 'Quit'
+                on_press: root.quit()
 <BluetoothScreen>:
     BoxLayout:
         orientation: 'vertical'
+        SetGraph:
         Label:
             text: root.raw_txt
         Label:
