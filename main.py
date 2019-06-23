@@ -126,7 +126,7 @@ class SetGraph(Widget):
         plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
         print(plot)
         print(plot.points)
-        self.graph_test.add_plot(plot)
+        #self.graph_test.add_plot(plot)
         self.ids["graph_test"].add_plot(plot)
         print(self.graph_test)
 
