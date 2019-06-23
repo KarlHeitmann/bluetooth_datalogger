@@ -1,11 +1,15 @@
 import os
 
 import threading   
+from math import sin
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
+
+from kivy.garden.graph import Graph, MeshLinePlot
 
 from kivy.properties import StringProperty
 
@@ -97,11 +101,30 @@ class BluetoothScreen(Screen):
 
 
 class MenuScreen(Screen):
+    def on_start(self):
+        self.graph = Graph(xlabel='X', ylabel='Y', x_ticks_minor=5,
+            x_ticks_major=25, y_ticks_major=1,
+            y_grid_label=True, x_grid_label=True, padding=5,
+            x_grid=True, y_grid=True, xmin=-0, xmax=100, ymin=-1, ymax=1
+        )
+        self.plot = MeshLinePlot(color=[1, 0, 0, 1])
+        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+        self.graph.add_plot(self.plot)
+
     def start_bluetooth(self):
         print("starting")
 
 class SettingsScreen(Screen):
     pass
+
+
+class SetGraph(Widget):
+    graph_test = ObjectProperty(None)
+
+    def update_graph(self):
+         plot = MeshLinePlot(color=[1, 0, 0, 1])
+         plot.points = [(x, sin(x / 10.)) for x in range(0, 101)]
+         self.graph_test.add_plot(plot)
 
 class BluetoothDataloggerApp(App):
     def on_connect(self):
@@ -112,6 +135,8 @@ class BluetoothDataloggerApp(App):
         sm.add_widget(BluetoothScreen(name='bluetooth'))
         sm.add_widget(Thread(name='thread'))
         sm.add_widget(SettingsScreen(name='settings'))
+        disp = SetGraph()
+        disp.update_graph()
         #self.load_kv('thread.kv')
         #return Thread() 
         #return Widget()
