@@ -9,6 +9,10 @@ class SetGraph(BoxLayout):
     graph_test = ObjectProperty(None)
     def update_graph(self):
         pass
+    def inicializar(self):
+        self.plot = MeshLinePlot(color=[1, 0, 0, 1])
+        self.plot.points = []
+        self.ids["graph_test"].add_plot(self.plot)
     def pintar(self):
         print("update_graph")
         self.plot = MeshLinePlot(color=[1, 0, 0, 1])
@@ -19,9 +23,10 @@ class SetGraph(BoxLayout):
         self.ids["graph_test"].add_plot(self.plot)
         print(self.graph_test)
         print("CLICK!!!")
-    def add_point(self, _x, _y):
+    def add_point(self, _y, _x=None):
         self.x = self.x + 1
         self.plot.points.append((self.x, 2))
+        #self.plot.points.append((self.x if (_x == None) else _x, _y))
 
 if __name__ == '__main__':
     from kivy.app import App
