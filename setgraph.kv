@@ -1,0 +1,30 @@
+#: import MeshLinePlot kivy.garden.graph.MeshLinePlot
+
+<SetGraph>:
+    graph_test : graph_test
+    orientation: 'vertical'
+    Graph:
+        with_stencilbuffer: False
+        id: graph_test
+        plot: MeshLinePlot
+        xlabel:'X'
+        ylabel:'Y'
+        x_ticks_minor:5
+        x_tics_major:25
+        y_ticks_major:1
+        y_grid_label:True
+        x_grid_label:True
+        padding:5
+        x_grid:True
+        y_grid:True
+        xmin:-0
+        xmax:100
+        ymin:-10
+        ymax:10
+        pos: 0, root.height / 6
+        size: root.width * 2 / 3 , root.height * 18 / 24
+    Button:
+        text: 'pintar'
+        on_press: root.pintar()
+
+

@@ -1,18 +1,15 @@
-
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
-
-from kivy.garden.graph import Graph, MeshLinePlot
-
 from kivy.properties import StringProperty
 
 import time
 
 # modulos personales
-from bluetooth_screen import BluetoothScreen
+from bluetoothscreen import BluetoothScreen
+from setgraph import SetGraph
 
 class Thread(Screen):
     counter = NumericProperty(0)
@@ -48,25 +45,6 @@ class MenuScreen(Screen):
 
 class SettingsScreen(Screen):
     pass
-
-class SetGraph(BoxLayout):
-    graph_test = ObjectProperty(None)
-    def update_graph(self):
-        pass
-    def pintar(self):
-        print("update_graph")
-        self.plot = MeshLinePlot(color=[1, 0, 0, 1])
-        self.plot.points = [(x, sin(x / 10.)) for x in range(0, 20)]
-        self.x = 20
-        print(self.plot)
-        print(self.plot.points)
-        self.ids["graph_test"].add_plot(self.plot)
-        print(self.graph_test)
-        print("CLICK!!!")
-    def add_point(self, _x, _y):
-        self.x = self.x + 1
-        self.plot.points.append((self.x, 2))
-
 
 class BluetoothDataloggerApp(App):
     def on_connect(self):
