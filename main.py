@@ -7,16 +7,22 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 import time
 
+gbl_force_close = False
+
 def working(socket_in):
     print(socket_in)
     print("WORKING")
     for i in range(10):
         print("EN LOOP")
+        if gbl_force_close:
+            print("condicion_salida")
+            break
         if (socket_in.available()):
             input_chr = chr(socket_in.read())
             print(input_chr)
         print("i = %d" % i)
         time.sleep(1)
+    print("va a cerrar socket")
     socket_in.close()
     print("BYE BYE Thread")
 
@@ -62,11 +68,13 @@ class Thread(Screen):
 class BluetoothScreen(Screen):
     def on_enter(self):
         print("Bienvenido!")
+        gbl_force_close = False
         recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
         self.send_stream = send_stream
-        working(recv_stream)
+        threading.Thread(target=working, args=(recv_stream,)).start()
     def on_leave(self):
         self.send_stream.close()
+        gbl_force_close = True
         print("Cerrando salida")
 
 
