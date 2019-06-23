@@ -32,7 +32,7 @@ def working(socket_in, conectando_str, raw_log):
     while(not(gbl_force_close)):
         if (socket_in.available()):
             input_chr = chr(socket_in.read())
-            #raw_log(input_chr)
+            raw_log(input_chr)
             #conectando_str = input_chr
             mensaje = mensaje + input_chr
             if (input_chr == '\n'):
