@@ -16,7 +16,9 @@ def working(socket_in):
             input_chr = chr(socket_in.read())
             print(input_chr)
         print("i = %d" % i)
-        time.sleep(5)
+        time.sleep(1)
+    socket_in.close()
+    print("BYE BYE Thread")
 
 from jnius import autoclass
 
@@ -63,6 +65,9 @@ class BluetoothScreen(Screen):
         recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
         self.send_stream = send_stream
         working(recv_stream)
+    def on_leave(self):
+        self.send_stream.close()
+        print("Cerrando salida")
 
 
 class MenuScreen(Screen):
