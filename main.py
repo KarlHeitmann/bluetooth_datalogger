@@ -8,7 +8,7 @@ from kivy.properties import StringProperty
 import time
 
 # modulos personales
-from bluetooth_screen import BluetoothScreen
+from bluetoothscreen import BluetoothScreen
 from setgraph import SetGraph
 
 class Thread(Screen):
