@@ -5,11 +5,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 
+from kivy.properties import StringProperty
+
 import time
 
 gbl_force_close = False
 
-def working(socket_in):
+def working(socket_in, conectando_str):
     print(socket_in)
     print("WORKING")
     for i in range(10):
@@ -19,6 +21,8 @@ def working(socket_in):
             break
         if (socket_in.available()):
             input_chr = chr(socket_in.read())
+            #conectando_str = input_chr
+            conectando_str(input_chr)
             print(input_chr)
         print("i = %d" % i)
         time.sleep(1)
@@ -66,12 +70,28 @@ class Thread(Screen):
 
 # Declare both screens
 class BluetoothScreen(Screen):
+    conectando_text = StringProperty("Noc")
+    #conectando_text = "Con"
     def on_enter(self):
         print("Bienvenido!")
         gbl_force_close = False
         recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
         self.send_stream = send_stream
-        threading.Thread(target=working, args=(recv_stream,)).start()
+        #threading.Thread(target=working, args=(recv_stream, self.conectando_text, )).start()
+        threading.Thread(target=working, args=(recv_stream, self.actualizar, )).start()
+    def cambiar(self):
+        print("CAMBIAR!!!!!!!!!!!!!!!")
+        print(self.conectando_text)
+        self.conectando_text = "asdsda"
+        print(self.conectando_text)
+    def actualizar(self, caracter):
+        print("JKHGDFHJKGDFJHGKJDFHGJKDFHGDJFKHGKDFHGKFDJHGDFKJHGKJDFHGKFJHGDFJKHGDF")
+        print(self.conectando_text)
+        self.conectando_text = caracter
+        print(caracter)
+        print(self.conectando_text)
+        print("dsfsdfsdfs ================ %s", caracter)
+        print("JKHGDFHJKGDFJHGKJDFHGJKDFHGDJFKHGKDFHGKFDJHGDFKJHGKJDFHGKFJHGDFJKHGDF")
     def on_leave(self):
         self.send_stream.close()
         gbl_force_close = True
