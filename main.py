@@ -3,6 +3,8 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
+from kivy.uix.screenmanager import ScreenManager, Screen
+
 
 import time
 
@@ -24,15 +26,27 @@ class Thread(BoxLayout):
         self.counter += 1
         self.ids.lbl.text = "{}".format(self.counter)
 
+# Declare both screens
+class MenuScreen(Screen):
+    pass
+
+class SettingsScreen(Screen):
+    pass
+
 class BluetoothDataloggerApp(App):
     def on_connect(self):
         print("Conectando...")
     def build(self):
+        sm = ScreenManager()
+        sm.add_widget(MenuScreen(name='menu'))
+        sm.add_widget(SettingsScreen(name='settings'))
         #self.load_kv('thread.kv')
         #return Thread() 
         #return Widget()
-        pass
-
+        return sm
 if __name__ == "__main__":
+    # Create the screen manager
+    #TestApp().run()
+
     app = BluetoothDataloggerApp()
     app.run()
