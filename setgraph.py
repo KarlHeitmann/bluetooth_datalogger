@@ -31,6 +31,7 @@ if __name__ == '__main__':
         def build(self):
             sm = ScreenManager()
             screen = Screen(name='set_graph')
+            screen.add_widget(SetGraph())
             sm.add_widget(screen)
             return sm
             #return SetGraph()

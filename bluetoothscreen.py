@@ -2,8 +2,6 @@ import os
 
 import threading   
 
-from math import sin
-
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.uix.screenmanager import Screen, ScreenManager
 from kivy.uix.boxlayout import BoxLayout
