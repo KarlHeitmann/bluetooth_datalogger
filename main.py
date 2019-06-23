@@ -32,11 +32,11 @@ def working(socket_in, conectando_str, raw_log):
     while(not(gbl_force_close)):
         if (socket_in.available()):
             input_chr = chr(socket_in.read())
-            raw_log(input_chr)
+            #raw_log(input_chr)
             #conectando_str = input_chr
             mensaje = mensaje + input_chr
             if (input_chr == '\n'):
-                print(mensaje)
+                #print(mensaje)
                 conectando_str(mensaje)
                 mensaje = ""
             print(input_chr)
@@ -85,13 +85,14 @@ class BluetoothScreen(Screen):
         recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
         self.send_stream = send_stream
         #threading.Thread(target=working, args=(recv_stream, self.conectando_text, )).start()
-        threading.Thread(target=working, args=(recv_stream, self.actualizar, self.raw_log)).start()
+        threading.Thread(target=working, args=(recv_stream, self.actualizar, self.raw_log, )).start()
     def raw_log(self, caracter):
         self.raw_txt_str = self.raw_txt_str + caracter
-        print(self.raw_txt_str)
-        print(type(self.raw_txt_str))
-        print(type(str(self.raw_txt_str)))
-        self.raw_txt = StringProperty(str(self.raw_txt_str))
+        #print(self.raw_txt_str)
+        #print(type(self.raw_txt_str))
+        #print(type(str(self.raw_txt_str)))
+        self.raw_txt = self.raw_txt_str
+        #self.raw_txt = StringProperty(str(self.raw_txt_str))
     def actualizar(self, mensaje):
         self.conectando_text = mensaje
     def on_leave(self):
