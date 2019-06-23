@@ -5,14 +5,44 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 
-
 import time
 
-def working():
+def working(socket_in):
+    print(socket_in)
+    print("WORKING")
     for i in range(10):
+        print("EN LOOP")
+        if (socket_in.available()):
+            input_chr = chr(socket_in.read())
+            print(input_chr)
         print("i = %d" % i)
         time.sleep(5)
 
+from jnius import autoclass
+
+BLUETOOTH_NAME = 'ESP32test'
+BluetoothAdapter = autoclass('android.bluetooth.BluetoothAdapter')
+BluetoothDevice = autoclass('android.bluetooth.BluetoothDevice')
+BluetoothSocket = autoclass('android.bluetooth.BluetoothSocket')
+UUID = autoclass('java.util.UUID')
+
+def get_socket_stream(name):
+    paired_devices = BluetoothAdapter.getDefaultAdapter().getBondedDevices().toArray()
+    print("========================")
+    print([ x.getName() for x in paired_devices ])
+    print(paired_devices)
+    socket = None
+    for device in paired_devices:
+        print(device.getName())
+        if device.getName() == name:
+            socket = device.createRfcommSocketToServiceRecord(
+                UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
+            recv_stream = socket.getInputStream()
+            send_stream = socket.getOutputStream()
+            break
+    socket.connect()
+    print("FIN SOCKET CONNECT")
+    return recv_stream, send_stream
 
 class Thread(Screen):
     counter = NumericProperty(0)
@@ -30,6 +60,11 @@ class Thread(Screen):
 class BluetoothScreen(Screen):
     def on_enter(self):
         print("Bienvenido!")
+        recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
+        self.send_stream = send_stream
+        working(recv_stream)
+
+
 class MenuScreen(Screen):
     def start_bluetooth(self):
         print("starting")
