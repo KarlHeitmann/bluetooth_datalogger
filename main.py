@@ -14,18 +14,17 @@ gbl_force_close = False
 def working(socket_in, conectando_str):
     print(socket_in)
     print("WORKING")
-    for i in range(10):
-        print("EN LOOP")
-        if gbl_force_close:
-            print("condicion_salida")
-            break
+    mensaje = ""
+    while(not(gbl_force_close)):
         if (socket_in.available()):
             input_chr = chr(socket_in.read())
             #conectando_str = input_chr
-            conectando_str(input_chr)
+            mensaje = mensaje + input_chr
+            if (input_chr == '\n'):
+                print(mensaje)
+                conectando_str(mensaje)
+                mensaje = ""
             print(input_chr)
-        print("i = %d" % i)
-        time.sleep(1)
     print("va a cerrar socket")
     socket_in.close()
     print("BYE BYE Thread")
@@ -79,19 +78,8 @@ class BluetoothScreen(Screen):
         self.send_stream = send_stream
         #threading.Thread(target=working, args=(recv_stream, self.conectando_text, )).start()
         threading.Thread(target=working, args=(recv_stream, self.actualizar, )).start()
-    def cambiar(self):
-        print("CAMBIAR!!!!!!!!!!!!!!!")
-        print(self.conectando_text)
-        self.conectando_text = "asdsda"
-        print(self.conectando_text)
     def actualizar(self, caracter):
-        print("JKHGDFHJKGDFJHGKJDFHGJKDFHGDJFKHGKDFHGKFDJHGDFKJHGKJDFHGKFJHGDFJKHGDF")
-        print(self.conectando_text)
         self.conectando_text = caracter
-        print(caracter)
-        print(self.conectando_text)
-        print("dsfsdfsdfs ================ %s", caracter)
-        print("JKHGDFHJKGDFJHGKJDFHGJKDFHGDJFKHGKDFHGKFDJHGDFKJHGKJDFHGKFJHGDFJKHGDF")
     def on_leave(self):
         self.send_stream.close()
         gbl_force_close = True
