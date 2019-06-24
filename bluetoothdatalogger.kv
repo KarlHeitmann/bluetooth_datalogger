@@ -12,7 +12,7 @@
             Button:
                 id: wena_choro
                 text: 'Goto settings'
-                on_press: root.manager.current = 'settings'
+                on_press: app.open_settings()
             Button:
                 text: 'Start Bluetooth'
                 on_press: root.manager.current = 'bluetooth'

@@ -5,6 +5,12 @@ from kivy.properties import NumericProperty, ObjectProperty
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import StringProperty
 
+from kivy.config import ConfigParser
+from kivy.uix.settings import SettingsWithSidebar
+
+from settingsjson import settings_json
+
+
 import time
 
 # modulos personales
@@ -44,6 +50,13 @@ class MenuScreen(Screen):
         self.ids["MiGraf"].add_point(15.0, 43.4)
 
 class SettingsScreen(Screen):
+    def on_start(self):
+        config = ConfigParser()
+        config.read('myconfig.ini')
+
+        s = Settings()
+        s.add_json_panel('My custom panel', config, 'settings_custom.json')
+        s.add_json_panel('Another panel', config, 'settings_test2.json')
     pass
 
 class BluetoothDataloggerApp(App):
@@ -54,11 +67,30 @@ class BluetoothDataloggerApp(App):
         self.disp = SetGraph()
         self.disp.update_graph()
         ms = MenuScreen(name='menu')
+        self.settings_cls = SettingsWithSidebar
         sm.add_widget(ms)
         sm.add_widget(BluetoothScreen(name='bluetooth'))
         sm.add_widget(Thread(name='thread'))
         sm.add_widget(SettingsScreen(name='settings'))
         return sm
+    def build_config(self, config):
+        config.setdefaults('Grafico', {
+                'boolexample': True,
+                'numericexample': 10,
+                'optionsexample': 'option2',
+                'stringexample': 'some_string',
+                'pathexample': '/some/path',
+                'ymax': 10,
+                'ymin': 0
+            })
+    def build_settings(self, settings):
+        settings.add_json_panel('Grafico Settings', self.config, data=settings_json)
+    def on_config_change(self, config, section, key, value):
+        print(config)
+        print(section)
+        print(key)
+        print(value)
+
 
 if __name__ == "__main__":
     app = BluetoothDataloggerApp()
