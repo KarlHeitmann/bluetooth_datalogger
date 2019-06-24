@@ -69,13 +69,20 @@ class BluetoothScreen(Screen):
             recv_stream, send_stream = get_socket_stream(BLUETOOTH_NAME)
             self.send_stream = send_stream
             threading.Thread(target=working, args=(recv_stream, self.actualizar, self.raw_log, )).start()
+            self.ids["MiGraf"].inicializar()
         else:
             print("NO BLUETOOTH")
     def raw_log(self, caracter):
-        self.raw_txt_str = self.raw_txt_str + caracter
+        self.raw_txt_str = (self.raw_txt_str + caracter).replace('\n', ' ')
         self.raw_txt = self.raw_txt_str
     def actualizar(self, mensaje):
-        self.conectando_text = mensaje
+        try:
+            val = int(mensaje)
+            print("Agregar punto")
+            self.ids["MiGraf"].add_point(_y = val)
+        except ValueError:
+            print("That's not an int!")
+            self.conectando_text = mensaje
     def on_leave(self):
         self.send_stream.close()
         gbl_force_close = True
