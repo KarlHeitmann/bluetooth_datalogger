@@ -6,11 +6,29 @@
             id: MiGraf
         Label:
             text: root.raw_txt
+            size_hint_y: 0.1
+            multiline: True
         Label:
             text: root.conectando_text
-        Button:
-            text: 'Back to menu'
-            on_press: root.manager.current = 'menu'
+            size_hint_y: 0.1
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.075
+            Button:
+                text: 'Siguiente'
+                on_press: root.send_bl('siguiente\n')
+            Button:
+                text: 'Anterior'
+                on_press: root.send_bl('anterior')
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.075
+            Button:
+                text: 'Back to menu'
+                on_press: root.manager.current = 'menu'
+            Button:
+                text: 'Clear'
+                on_press: root.clear_graph()
 
 
 

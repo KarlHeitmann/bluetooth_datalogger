@@ -80,6 +80,7 @@ class BluetoothScreen(Screen):
             val = int(mensaje)
             print("Agregar punto")
             self.ids["MiGraf"].add_point(_y = val)
+            self.conectando_text = mensaje
         except ValueError:
             print("That's not an int!")
             self.conectando_text = mensaje
@@ -87,6 +88,12 @@ class BluetoothScreen(Screen):
         self.send_stream.close()
         gbl_force_close = True
         print("Cerrando salida")
+    def clear_graph(self):
+        print("clear")
+        self.ids["MiGraf"].clear()
+        self.raw_txt_str = ""
+    def send_bl(self, cmd):
+        self.send_stream.write(cmd.encode())
 
 if __name__ == '__main__':
     from kivy.app import App

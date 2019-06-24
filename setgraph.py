@@ -27,6 +27,9 @@ class SetGraph(BoxLayout):
         self.x = self.x + 1
         self.plot.points.append((self.x, _y))
         #self.plot.points.append((self.x if (_x == None) else _x, _y))
+    def clear(self):
+        self.plot.points = []
+        self.x = 0
 
 if __name__ == '__main__':
     from kivy.app import App
