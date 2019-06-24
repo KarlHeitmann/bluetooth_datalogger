@@ -25,7 +25,7 @@ class SetGraph(BoxLayout):
         print("CLICK!!!")
     def add_point(self, _y, _x=None):
         self.x = self.x + 1
-        self.plot.points.append((self.x, 2))
+        self.plot.points.append((self.x, _y))
         #self.plot.points.append((self.x if (_x == None) else _x, _y))
 
 if __name__ == '__main__':
