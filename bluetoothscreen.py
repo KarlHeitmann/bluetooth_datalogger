@@ -80,7 +80,7 @@ class BluetoothScreen(Screen):
             val = int(mensaje)
             print("Agregar punto")
             self.ids["MiGraf"].add_point(_y = val)
-            self.conectando_text = mensaje
+            #self.conectando_text = mensaje
         except ValueError:
             print("That's not an int!")
             self.conectando_text = mensaje
