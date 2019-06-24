@@ -25,10 +25,16 @@ class SetGraph(BoxLayout):
         print("CLICK!!!")
     def add_point(self, _y, _x=None):
         self.x = self.x + 1
-        self.plot.points.append((self.x, _y))
+        self.plot.points.append([self.x, _y])
+        if (len(self.plot.points) > 10):
+            self.plot.points.pop(0)
+            self.ids["graph_test"].xmax = self.x
+            self.ids["graph_test"].xmin = self.x - 10
         #self.plot.points.append((self.x if (_x == None) else _x, _y))
     def clear(self):
         self.plot.points = []
+        self.ids["graph_test"].xmax = 10
+        self.ids["graph_test"].xmin = 0
         self.x = 0
 
 if __name__ == '__main__':
